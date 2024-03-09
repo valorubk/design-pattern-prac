@@ -10,6 +10,9 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * 该项目对于用户的密码暂时不进行加解密处理
+ */
 @Service
 public class UserService {
     @Resource
@@ -17,6 +20,7 @@ public class UserService {
 
     public String login(String account, String password) {
         UserInfo userInfo = userRepository.findByUserNameAndUserPassword(account, password);
+        // 匹配账号和密码失败就返回错误信息
         if (Objects.isNull(userInfo)) {
             return "account / password ERROR!";
         }
@@ -25,6 +29,7 @@ public class UserService {
 
     // 用户注册
     public String register(UserInfo userInfo) {
+        // 如果当前账号存在,拒绝注册
         if (checkUserExists(userInfo.getUserName())) {
             throw new RuntimeException("User already registered.");
         }
