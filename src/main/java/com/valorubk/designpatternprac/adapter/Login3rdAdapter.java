@@ -53,7 +53,6 @@ public class Login3rdAdapter extends UserService implements Login3rdTarget {
         String userName = giteeUserPrefix + giteeUserName;
         String password = userName; // 这个就随便定了, 默认就是用户的用户名
 
-        // todo 验证第三方账号在本系统内是否注册,如未注册,则自动注册后再登录
         return autoRegister3rdAndLogin(userName, password);
     }
 
