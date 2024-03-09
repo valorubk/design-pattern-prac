@@ -1,0 +1,4 @@
+client_id: fbb9e39e63ba02c5d385ecc6b9f5491eabb42e3971bb2815824cec00cfc7122b
+client_secret: 226c5e9a5bea4040ded6c6357924fb44511e98480bdfc3308c1c730d1a7e7da6
+
+url: https://gitee.com/oauth/applications/40146

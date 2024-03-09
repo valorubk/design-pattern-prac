@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * 该网站原生的登录系统
  * 该项目对于用户的密码暂时不进行加解密处理
  */
 @Service

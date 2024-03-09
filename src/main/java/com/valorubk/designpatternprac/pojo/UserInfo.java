@@ -1,5 +1,6 @@
 package com.valorubk.designpatternprac.pojo;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,4 +29,5 @@ public class UserInfo {
 
     @Column
     private String userEmail;
+
 }
