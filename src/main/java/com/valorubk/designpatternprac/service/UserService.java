@@ -2,8 +2,6 @@ package com.valorubk.designpatternprac.service;
 
 import com.valorubk.designpatternprac.pojo.UserInfo;
 import com.valorubk.designpatternprac.repo.UserRepository;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

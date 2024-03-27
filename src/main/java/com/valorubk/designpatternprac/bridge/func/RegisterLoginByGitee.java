@@ -1,17 +1,21 @@
 package com.valorubk.designpatternprac.bridge.func;
 
 import com.alibaba.fastjson.JSONObject;
+import com.valorubk.designpatternprac.bridge.abst.factory.RegisterLoginComponentFactory;
 import com.valorubk.designpatternprac.pojo.UserInfo;
 import com.valorubk.designpatternprac.repo.UserRepository;
 import com.valorubk.designpatternprac.utils.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
+@Component
 public class RegisterLoginByGitee extends AbstractRegisterLoginFunc implements RegisterLoginFuncInterface {
 
     @Value("${gitee.state}")
@@ -25,6 +29,11 @@ public class RegisterLoginByGitee extends AbstractRegisterLoginFunc implements R
 
     @Resource
     private UserRepository userRepository;
+
+    @PostConstruct
+    private void  initFuncMap() {
+        RegisterLoginComponentFactory.funcMap.put("GITEE", this);
+    }
 
     @Override
     public String login3rd(HttpServletRequest request) {
