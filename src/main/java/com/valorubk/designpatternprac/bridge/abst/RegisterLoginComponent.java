@@ -12,7 +12,7 @@ public class RegisterLoginComponent extends AbstractRegisterLoginComponent {
 
     // 功能的实现依赖于使用桥梁调用实现类
     @Override
-    protected String login(String username, String password) {
+    public String login(String username, String password) {
         return funcInterface.login(username, password);
     }
 

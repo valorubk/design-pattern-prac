@@ -1,10 +1,14 @@
 package com.valorubk.designpatternprac.service;
 
+import com.valorubk.designpatternprac.bridge.abst.AbstractRegisterLoginComponent;
+import com.valorubk.designpatternprac.bridge.abst.RegisterLoginComponent;
+import com.valorubk.designpatternprac.bridge.func.RegisterLoginByDefault;
 import com.valorubk.designpatternprac.pojo.UserInfo;
 import com.valorubk.designpatternprac.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,32 +18,18 @@ import java.util.Objects;
  */
 @Service
 public class UserBridgeService {
-    @Resource
-    private UserRepository userRepository;
 
     public String login(String account, String password) {
-        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(account, password);
-        // 匹配账号和密码失败就返回错误信息
-        if (Objects.isNull(userInfo)) {
-            return "account / password ERROR!";
-        }
-        return "Login success!";
+        AbstractRegisterLoginComponent registerLoginComponent = new RegisterLoginComponent(new RegisterLoginByDefault());
+        return ((RegisterLoginComponent) registerLoginComponent).login(account, password);
     }
 
     // 用户注册
     public String register(UserInfo userInfo) {
-        // 如果当前账号存在,拒绝注册
-        if (checkUserExists(userInfo.getUserName())) {
-            throw new RuntimeException("User already registered.");
-        }
-        userInfo.setCreateDate(new Date());
-        userRepository.save(userInfo);
-        return "Register success!";
+        return null;
     }
 
-    // 根据用户账号名称检查用户是否已经注册
-    public boolean checkUserExists(String userName) {
-        UserInfo user = userRepository.findByUserName(userName);
-        return Objects.nonNull(user);
+    public String login3rd(HttpServletRequest request, String type) {
+        return null;
     }
 }
