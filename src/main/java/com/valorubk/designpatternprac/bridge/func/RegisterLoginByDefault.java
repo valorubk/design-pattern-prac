@@ -8,40 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
-public class RegisterLoginByDefault implements RegisterLoginFuncInterface {
+public class RegisterLoginByDefault extends AbstractRegisterLoginFunc implements RegisterLoginFuncInterface {
 
     @Resource
     private UserRepository userRepository;
 
     @Override
     public String login(String account, String password) {
-        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(account, password);
-        // 匹配账号和密码失败就返回错误信息
-        if (Objects.isNull(userInfo)) {
-            return "account / password ERROR!";
-        }
-        return "Login success!";
+        return super.commonLogin(account, password, userRepository);
     }
 
     @Override
     public String register(UserInfo userInfo) {
-        // 如果当前账号存在,拒绝注册
-        if (checkUserExists(userInfo.getUserName())) {
-            throw new RuntimeException("User already registered.");
-        }
-        userInfo.setCreateDate(new Date());
-        userRepository.save(userInfo);
-        return "Register success!";
+        return super.commonRegister(userInfo, userRepository);
     }
 
     @Override
     public boolean checkUserExists(String userName) {
-        UserInfo user = userRepository.findByUserName(userName);
-        return Objects.nonNull(user);
+        return super.commonCheckUserExists(userName, userRepository);
     }
 
-    @Override
-    public String login3rd(HttpServletRequest request) {
-        return null;
-    }
 }

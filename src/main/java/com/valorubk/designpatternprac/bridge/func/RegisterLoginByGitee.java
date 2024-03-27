@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
-public class RegisterLoginByGitee implements RegisterLoginFuncInterface {
+public class RegisterLoginByGitee extends AbstractRegisterLoginFunc implements RegisterLoginFuncInterface {
 
     @Value("${gitee.state}")
     private String giteeState;
@@ -25,33 +25,6 @@ public class RegisterLoginByGitee implements RegisterLoginFuncInterface {
 
     @Resource
     private UserRepository userRepository;
-
-    @Override
-    public String login(String account, String password) {
-        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(account, password);
-        // 匹配账号和密码失败就返回错误信息
-        if (Objects.isNull(userInfo)) {
-            return "account / password ERROR!";
-        }
-        return "Login success!";
-    }
-
-    @Override
-    public String register(UserInfo userInfo) {
-        // 如果当前账号存在,拒绝注册
-        if (checkUserExists(userInfo.getUserName())) {
-            throw new RuntimeException("User already registered.");
-        }
-        userInfo.setCreateDate(new Date());
-        userRepository.save(userInfo);
-        return "Register success!";
-    }
-
-    @Override
-    public boolean checkUserExists(String userName) {
-        UserInfo user = userRepository.findByUserName(userName);
-        return Objects.nonNull(user);
-    }
 
     @Override
     public String login3rd(HttpServletRequest request) {
@@ -85,8 +58,8 @@ public class RegisterLoginByGitee implements RegisterLoginFuncInterface {
      */
     private String autoRegister3rdAndLogin(String userName, String password) {
         // 如果已注册过,则直接登录
-        if (checkUserExists(userName)) {
-            return login(userName, password);
+        if (super.commonCheckUserExists(userName, userRepository)) {
+            return super.commonLogin(userName, password, userRepository);
         }
 
         // 用户在系统内注册
@@ -94,7 +67,7 @@ public class RegisterLoginByGitee implements RegisterLoginFuncInterface {
         userInfo.setUserName(userName);
         userInfo.setUserPassword(password);
         userInfo.setCreateDate(new Date());
-        register(userInfo);
-        return login(userName, password);
+        super.commonRegister(userInfo, userRepository);
+        return super.commonLogin(userName, password, userRepository);
     }
 }
