@@ -16,6 +16,9 @@ spring:
       hibernate.hbm2ddl.auto: update
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+  redis:
+    host: localhost
+    port: 6379
 
 # gitee 第三方登录相关配置
 gitee:
