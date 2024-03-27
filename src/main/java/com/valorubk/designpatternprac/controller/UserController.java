@@ -24,5 +24,4 @@ public class UserController {
     public String register(@RequestBody UserInfo userInfo) {
         return userService.register(userInfo);
     }
-
 }
